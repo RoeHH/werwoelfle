@@ -15,10 +15,11 @@ import * as $play_gameId_ from "./routes/play/[gameId].tsx";
 import * as $play_gameId_playerId_ from "./routes/play/[gameId]/[playerId].tsx";
 import * as $play_index from "./routes/play/index.tsx";
 import * as $sse_change from "./routes/sse/change.ts";
-import * as $sse_game_gameId_playerId_ from "./routes/sse/game/[gameId]/[playerId].ts";
+import * as $sse_game_gameId_ from "./routes/sse/game/[gameId].ts";
 import * as $sse_player_playerId_ from "./routes/sse/player/[playerId].ts";
 import * as $Card from "./islands/Card.tsx";
 import * as $GameOverview from "./islands/GameOverview.tsx";
+import * as $QrDialog from "./islands/QrDialog.tsx";
 import * as $StartButton from "./islands/StartButton.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -38,12 +39,13 @@ const manifest = {
     "./routes/play/[gameId]/[playerId].tsx": $play_gameId_playerId_,
     "./routes/play/index.tsx": $play_index,
     "./routes/sse/change.ts": $sse_change,
-    "./routes/sse/game/[gameId]/[playerId].ts": $sse_game_gameId_playerId_,
+    "./routes/sse/game/[gameId].ts": $sse_game_gameId_,
     "./routes/sse/player/[playerId].ts": $sse_player_playerId_,
   },
   islands: {
     "./islands/Card.tsx": $Card,
     "./islands/GameOverview.tsx": $GameOverview,
+    "./islands/QrDialog.tsx": $QrDialog,
     "./islands/StartButton.tsx": $StartButton,
   },
   baseUrl: import.meta.url,

@@ -1,9 +1,10 @@
 import { Handlers } from "$fresh/server.ts";
 import { ServerSentEventStream } from "jsr:@std/http";
+import { Game, Player } from "../../../utils/game.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const playerId = ctx.params.playerId;
+    const { gameId } = ctx.params;
 
     const db = await Deno.openKv();
 
@@ -11,19 +12,28 @@ export const handler: Handlers = {
       new ReadableStream({
         async start(controller) {
           for await (
-            const [{ value: message }] of db.watch([["player", playerId]])
+            const [{ value: message }] of db.watch([["game", gameId]])
           ) {
-            console.log("message", message);
+            const game = message as Game;
+            console.log("message game", message);
+
+            const playerIds = game.players;
+            game.players = [];
+            for await (const playerId of playerIds) {
+              game.players.push(
+                (await db.get(["player", playerId])).value as Player,
+              );
+            }
 
             controller.enqueue({
-              data: JSON.stringify({ player: message }),
+              data: JSON.stringify({ game }),
               id: Date.now(),
               event: "message",
             });
           }
         },
         cancel() {
-          console.log("cancel stream lol wtf");
+          console.log("cancel stream game lol wtf");
         },
       }).pipeThrough(new ServerSentEventStream()),
       {
