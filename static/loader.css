@@ -1,0 +1,22 @@
+.card-loader {
+  background: url('/images/cards/back-empty.jpg');
+  background-size: cover;
+}
+
+.card-loader img {
+  animation: infinite 1.5s linear card-loader;
+  border-radius: 50%;
+}
+
+@keyframes card-loader {
+  0% {
+    rotate: 0deg;
+  }
+  50% {
+    rotate: 180deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
